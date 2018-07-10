@@ -1,0 +1,25 @@
+{
+  "name": "flow-node-compiler",
+  "version": "0.1.0",
+  "description": "use flow in nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavinning/flow-node-compiler.git"
+  },
+  "keywords": [
+    "flow",
+    "nodejs",
+    "flow-node-compiler",
+    "flow-compiler"
+  ],
+  "author": "gavinning",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gavinning/flow-node-compiler/issues"
+  },
+  "homepage": "https://github.com/gavinning/flow-node-compiler#readme"
+}
