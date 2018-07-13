@@ -20,7 +20,7 @@ Flow-node-compiler
 ``src``和``dist``是配置项，可以自由指定源码目录和产出目录
 
 ### Install
-```js
+```sh
 npm i flow-node-compiler --save-dev
 ```
 

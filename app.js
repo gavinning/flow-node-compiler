@@ -31,7 +31,7 @@ class Compiler {
         // 1.全量 flow check
         // 2.执行单文件编译
         gaze.on('all', (event, filepath) => {
-            this.check()
+            !this.isFlow(filepath) || this.check()
             this.compile(filepath)
         })
     }
