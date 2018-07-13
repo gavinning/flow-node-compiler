@@ -1,8 +1,11 @@
 {
   "name": "flow-node-compiler",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "use flow in nodejs",
   "main": "app.js",
+  "bin": {
+    "flow-node-compiler": "bin/compiler.js"
+  },
   "scripts": {
     "test": "node test",
     "dev": "nodemon demo/dist/demo.js -w demo/dist/",
