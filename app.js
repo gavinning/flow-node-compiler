@@ -7,7 +7,7 @@ const flow = require('flow-bin')
 const prettier = require('prettier')
 const { execFile, exec, execSync } = require('child_process')
 const flowRemoveTypes = require('flow-remove-types')
-
+const flowParser = require('flow-parser')
 
 class Compiler {
     constructor(options) {
@@ -31,6 +31,9 @@ class Compiler {
         // 1.全量 flow check
         // 2.执行单文件编译
         gaze.on('all', (event, filepath) => {
+            if (event === 'deleted') {
+                return fs.unlink(this.getDistFile(filepath))
+            }
             !this.isFlow(filepath) || this.check()
             this.compile(filepath)
         })
@@ -53,14 +56,15 @@ class Compiler {
 
     /// 这一步清理flow type标记
     flow(filepath) {
-        let dist = filepath.replace(this.src, this.dist)
+        let dist = this.getDistFile(filepath)
         let input = fs.readFileSync(filepath).toString('utf8')
-        let output = flowRemoveTypes(input).toString()
+        let output = flowRemoveTypes(this.addFlowSign(input)).toString()
+
         lab.mkdir(path.dirname(dist))
         // 输出美化后的代码
         // 1.去除多余空白
         // 2.格式化代码
-        fs.writeFileSync(dist, prettier.format(output, {
+        fs.writeFileSync(dist, prettier.format(this.removeFlowSign(output), {
             tabWidth: 4, // 4个空格
             useTabs: false, // 使用空格而不使用tab
             semi: false, // 不需要分号
@@ -71,13 +75,25 @@ class Compiler {
     /// 复制不需要执行flow type清理的文件到dist目录
     clone(filepath) {
         if (lab.isFile(filepath)) {
-            let dist = filepath.replace(this.src, this.dist)
+            let dist = this.getDistFile(filepath)
             fs.copySync(filepath, dist)
         }
     }
 
     getFiles() {
         return glob.sync(path.join(this.src, '**/*'), {nodir: true})
+    }
+
+    getDistFile(filepath) {
+        return filepath.replace(this.src, this.dist)
+    }
+
+    addFlowSign(input) {
+        return '//@flow\n' + input
+    }
+
+    removeFlowSign(output) {
+        return output.replace(/\/\/\s+\n/, '')
     }
 
     check() {

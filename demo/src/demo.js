@@ -1,4 +1,3 @@
-// @flow
 let a: number = 1
 let b: string = '123'
 
@@ -14,4 +13,4 @@ const age: number = 18
 
 // age = 19
 
-b = 77
+b = '77'

@@ -70,4 +70,3 @@ compiler.run()
 
 /// todo
 /// 1.现在 flow check 会命中全局，待优化
-/// 2.删除事件并未清除dist目录对应文件，待优化
